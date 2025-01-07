@@ -3,7 +3,7 @@ use serde::Serialize;
 
 #[derive(Serialize)]
 pub struct Message<'a> {
-  message: &'a str
+  pub message: &'a str
 }
 
 pub struct Error(anyhow::Error);
