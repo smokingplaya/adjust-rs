@@ -2,7 +2,7 @@ use axum::{http::StatusCode, response::IntoResponse, Json};
 use serde::Serialize;
 
 #[derive(Serialize)]
-pub struct ErrorResponse<'a> {
+pub struct Message<'a> {
   message: &'a str
 }
 
@@ -14,7 +14,7 @@ impl IntoResponse for Error {
   fn into_response(self) -> axum::response::Response {
     (
       StatusCode::INTERNAL_SERVER_ERROR,
-      Json(ErrorResponse {
+      Json(Message {
         message: &self.0.to_string()
       })
     ).into_response()
