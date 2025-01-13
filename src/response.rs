@@ -6,7 +6,7 @@ pub struct Message {
   pub message: String
 }
 
-pub struct Error(anyhow::Error);
+pub struct Error(pub anyhow::Error);
 
 pub type Result<T> = core::result::Result<T, Error>;
 
