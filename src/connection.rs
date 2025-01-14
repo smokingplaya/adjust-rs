@@ -16,7 +16,9 @@ pub fn establish_connection() -> Result<DbPool> {
 }
 
 // Redis connection
-type RedisPool = Pool<RedisConnectionManager>;
+type Redis = RedisConnectionManager;
+pub type RedisPool = Pool<Redis>;
+pub type RedisPooled = PooledConnection<Redis>;
 
 pub fn establish_redis_connection() -> Result<RedisPool> {
   let redis_url = env::var("REDIS_URL")?;
