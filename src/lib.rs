@@ -3,6 +3,7 @@ pub mod response;
 pub mod connection;
 
 pub use axum;
+pub use redis;
 pub use serde;
 pub use diesel;
 

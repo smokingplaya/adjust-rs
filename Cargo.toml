@@ -1,7 +1,7 @@
 [package]
 name = "dixxxie"
 authors = ["smokingplaya", "serenitymc"]
-version = "0.1.8"
+version = "0.1.9"
 edition = "2021"
 
 [dependencies]
@@ -10,8 +10,6 @@ axum = "0.8.1"
 dotenv = "0.15.0"
 env_logger = "0.11.6"
 r2d2 = "0.8.10"
-r2d2_redis = "0.14.0"
-redis = "0.28.1"
 
 [dependencies.serde]
 version = "1.0.217"
@@ -20,3 +18,7 @@ features = ["derive"]
 [dependencies.diesel]
 version = "2.2.0"
 features = ["postgres", "r2d2"]
+
+[dependencies.redis]
+version = "0.28.1"
+features = ["r2d2"]

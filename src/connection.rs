@@ -1,7 +1,6 @@
 use std::env;
 use anyhow::Result;
 use diesel::{r2d2::{ConnectionManager, Pool, PooledConnection}, PgConnection};
-use r2d2_redis::RedisConnectionManager;
 
 // PostgreSQL connection
 type Postgres = ConnectionManager<PgConnection>;
@@ -16,12 +15,12 @@ pub fn establish_connection() -> Result<DbPool> {
 }
 
 // Redis connection
-pub type RedisPool = r2d2::Pool<RedisConnectionManager>;
-pub type RedisPooled = r2d2::PooledConnection<RedisConnectionManager>;
+pub type RedisPool = Pool<redis::Client>;
+pub type RedisPooled = PooledConnection<redis::Client>;
 
 pub fn establish_redis_connection() -> Result<RedisPool> {
   let redis_url = env::var("REDIS_URL")?;
-  let manager = RedisConnectionManager::new(redis_url)?;
+  let manager = redis::Client::open(redis_url)?;
 
   Ok(Pool::builder().build(manager)?)
 }
