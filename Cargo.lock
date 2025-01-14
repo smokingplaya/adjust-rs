@@ -297,13 +297,14 @@ dependencies = [
 
 [[package]]
 name = "dixxxie"
-version = "0.1.7"
+version = "0.1.8"
 dependencies = [
  "anyhow",
  "axum",
  "diesel",
  "dotenv",
  "env_logger",
+ "r2d2",
  "r2d2_redis",
  "redis 0.28.1",
  "serde",
