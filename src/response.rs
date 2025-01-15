@@ -1,28 +1,36 @@
 use axum::{http::StatusCode, response::IntoResponse, Json};
 use serde::Serialize;
-use std::error::Error;
-use std::fmt::{self, Display, Formatter};
 
-#[derive(Serialize)]
-pub struct HttpMessage {
-  pub message: String,
-}
-
-#[derive(Debug)]
-pub struct HttpError(pub String, pub Option<StatusCode>);
+pub struct HttpError(pub anyhow::Error, pub Option<StatusCode>);
 
 pub type HttpResult<T> = core::result::Result<T, HttpError>;
 
 impl HttpError {
-  pub fn new(msg: &str) -> HttpError {
-    HttpError(msg.to_string(), Some(StatusCode::INTERNAL_SERVER_ERROR))
-  }
-
-  pub fn new_with_code(
-    msg: &str,
-    code: StatusCode
+  pub fn new(
+    message: &'static str,
+    code: Option<StatusCode>
   ) -> HttpError {
-    HttpError(msg.to_string(), Some(code))
+    HttpError(anyhow::anyhow!(message), code)
+  }
+}
+
+#[derive(Serialize)]
+struct HttpErrorMessage {
+  is_error: bool,
+  message: String
+}
+
+#[derive(Serialize)]
+pub struct HttpMessage {
+  message: String
+}
+
+impl<E> From<E> for HttpError
+where
+  E: Into<anyhow::Error> + 'static
+{
+  fn from(err: E) -> Self {
+    HttpError(err.into(), Some(StatusCode::INTERNAL_SERVER_ERROR))
   }
 }
 
@@ -30,24 +38,10 @@ impl IntoResponse for HttpError {
   fn into_response(self) -> axum::response::Response {
     (
       self.1.unwrap_or(StatusCode::INTERNAL_SERVER_ERROR),
-      Json(HttpMessage {
-        message: self.0.to_string(),
-      }),
-    )
-        .into_response()
-  }
-}
-
-impl Display for HttpError {
-  fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-    write!(f, "{}", self.0)
-  }
-}
-
-impl Error for HttpError {}
-
-impl From<anyhow::Error> for HttpError {
-  fn from(error: anyhow::Error) -> Self {
-    HttpError(error.to_string(), Some(StatusCode::INTERNAL_SERVER_ERROR))
+      Json(HttpErrorMessage {
+        is_error: true,
+        message: self.0.to_string()
+      })
+    ).into_response()
   }
 }
