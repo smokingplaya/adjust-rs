@@ -22,7 +22,7 @@ struct HttpErrorMessage {
 
 #[derive(Serialize)]
 pub struct HttpMessage {
-  message: String
+  pub message: String
 }
 
 impl HttpMessage {
