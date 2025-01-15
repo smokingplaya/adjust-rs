@@ -9,7 +9,7 @@ impl HttpError {
   pub fn new(
     message: &'static str,
     code: Option<StatusCode>
-  ) -> HttpError {
+  ) -> Self {
     HttpError(anyhow::anyhow!(message), code)
   }
 }
@@ -23,6 +23,14 @@ struct HttpErrorMessage {
 #[derive(Serialize)]
 pub struct HttpMessage {
   message: String
+}
+
+impl HttpMessage {
+  pub fn new(message: &str) -> Self {
+    HttpMessage {
+      message: message.to_string()
+    }
+  }
 }
 
 impl<E> From<E> for HttpError
