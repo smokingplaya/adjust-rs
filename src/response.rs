@@ -1,3 +1,4 @@
+use std::fmt;
 use axum::{http::StatusCode, response::IntoResponse, Json};
 use serde::Serialize;
 
@@ -12,6 +13,15 @@ impl HttpError {
     code: Option<StatusCode>
   ) -> Self {
     HttpError(anyhow::anyhow!(message), code)
+  }
+}
+
+impl fmt::Display for HttpError {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    match &self.1 {
+      Some(status) => write!(f, "{} (Status: {})", self.0, status),
+      None => write!(f, "{}", self.0),
+    }
   }
 }
 

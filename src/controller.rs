@@ -1,3 +1,4 @@
+use std::any::type_name;
 use axum::Router;
 
 pub trait Controller<S>
@@ -24,6 +25,8 @@ where
   where
     T: Controller<S>,
   {
+    log::debug!("Applying controller {} on axum Router", type_name::<T>());
+
     controller.register(self)
   }
 }
