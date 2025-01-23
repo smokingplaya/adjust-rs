@@ -1,6 +1,7 @@
 use axum::{http::StatusCode, response::IntoResponse, Json};
 use serde::Serialize;
 
+#[derive(Debug)]
 pub struct HttpError(pub anyhow::Error, pub Option<StatusCode>);
 
 pub type HttpResult<T> = core::result::Result<T, HttpError>;
