@@ -1,6 +1,10 @@
 [package]
 name = "dixxxie"
 authors = ["smokingplaya", "serenitymc"]
+description = "Axum/Diesel/Redis utils"
+license = "	AGPL-3.0-or-later"
+keywords = ["axum", "diesel", "redis", "utils"]
+repository = "https://github.com/riverfallmc/dixxxie"
 version = "0.1.15"
 edition = "2021"
 
