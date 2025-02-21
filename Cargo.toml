@@ -1,11 +1,11 @@
 [package]
 name = "dixxxie"
-authors = ["smokingplaya", "serenitymc"]
-description = "Axum/Diesel/Redis utils"
+authors = ["smokingplaya"]
+description = "Utility library for making serivces on axum easier"
 license = "	AGPL-3.0-or-later"
 keywords = ["axum", "diesel", "redis", "utils"]
 repository = "https://github.com/riverfallmc/dixxxie"
-version = "0.1.15"
+version = "0.1.16"
 edition = "2021"
 
 [dependencies]
@@ -14,6 +14,7 @@ dotenv = "0.15.0"
 env_logger = "0.11.6"
 log = "0.4.25"
 r2d2 = "0.8.10"
+tokio = { version = "1.43.0", features = ["full"] }
 
 [dependencies.serde]
 version = "1.0.217"

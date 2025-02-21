@@ -1,18 +1,9 @@
 pub mod controller;
 pub mod response;
-pub mod connection;
+pub mod database;
+pub mod server;
 
 pub use axum;
 pub use redis;
 pub use serde;
 pub use diesel;
-
-pub fn setup() -> anyhow::Result<()> {
-  if cfg!(debug_assertions) {
-    dotenv::dotenv()?;
-  }
-
-  env_logger::init();
-
-  Ok(())
-}

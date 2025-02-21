@@ -7,9 +7,8 @@
 # Установка
 ```toml
 [dependencies]
-dixxxie={ version = "*", git = "https://github.com/riverfallmc/dixxxie" }
+dixxxie= "*"
 ```
-Когда-нибудь мы зальём её на [crates.io](https://crates.io), но не сегодня.
 
 # Использование
 Actually, вы не должны её использовать,\
