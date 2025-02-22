@@ -1,12 +1,12 @@
 use axum::Router;
-use crate::controller::{ApplyControllerOnRouter, Controller};
+use crate::controller::{ApplyControllerOnRouter, ControllerList};
 
 /// A structure that raises the ``axum`` server with all the specified controllers.
 ///
 /// This is done as a structure to improve code readability.
-pub struct WebService;
+pub struct WebServer;
 
-impl WebService {
+impl WebServer {
   /// Example
   ///
   /// ```rs
@@ -26,18 +26,10 @@ impl WebService {
   ///       .await
   /// }
   /// ```
-  pub async fn start<S, T, const SIZE: usize>(state: S, controllers: [T; SIZE], port: Option<u32>) -> anyhow::Result<()>
+  pub async fn start<S>(state: S, controllers: ControllerList<S>, port: Option<u32>) -> anyhow::Result<()>
   where
-    S: Clone + Send + Sync + 'static,
-    T: Controller<S>
+    S: Clone + Send + Sync + 'static
   {
-    if cfg!(debug_assertions) {
-      dotenv::dotenv()
-        .expect("Unable to find .env file");
-
-      env_logger::init();
-    }
-
     let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port.unwrap_or(80)))
       .await?;
 
@@ -47,5 +39,16 @@ impl WebService {
 
     Ok(axum::serve(listener, router)
       .await?)
+  }
+
+  pub fn enviroment() {
+    if cfg!(debug_assertions) {
+      dotenv::dotenv()
+        .expect("Unable to find .env file");
+
+      env_logger::init();
+
+      log::debug!("debug assertions enabled (dotenv, env_logger)");
+    }
   }
 }

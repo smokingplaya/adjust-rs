@@ -1,6 +1,5 @@
 use std::future::Future;
-
-use crate::{controller::Controller, server::WebService};
+use crate::{controller::ControllerList, server::WebServer};
 
 /// A ``declarative`` structure for fast web service creation
 ///
@@ -20,25 +19,23 @@ use crate::{controller::Controller, server::WebService};
 ///     .await
 /// }
 /// ```
-pub struct Service<'a, S, T, const SIZE: usize>
+pub struct Service<'a, S>
 where
   S: Clone + Send + Sync + 'static,
-  T: Controller<S>
 {
   pub name: &'a str,
   pub state: S,
-  pub controllers: [T; SIZE],
+  pub controllers: ControllerList<S>,
   pub port: Option<u32>
 }
 
-impl<S, T, const SIZE: usize> Service<'_, S, T, SIZE>
+impl<S> Service<'_, S>
 where
   S: Clone + Send + Sync + 'static,
-  T: Controller<S>
 {
   pub fn run(self) -> impl Future<Output = anyhow::Result<()>> {
     log::info!("Starting service {}", self.name);
 
-    WebService::start(self.state, self.controllers, self.port)
+    WebServer::start(self.state, self.controllers, self.port)
   }
 }

@@ -1,5 +1,3 @@
-#[allow(warnings)]
-
 pub mod response;
 
 pub mod controller;
