@@ -6,7 +6,7 @@ pub type Postgres = ConnectionManager<PgConnection>;
 pub struct PostgresConnection;
 
 impl PostgresConnection {
-  pub fn new() -> anyhow::Result<Pool<Postgres>> {
+  pub fn try_connect() -> anyhow::Result<Pool<Postgres>> {
     let database_url = std::env::var("DATABASE_URL")?;
     let manager = ConnectionManager::<PgConnection>::new(database_url);
 

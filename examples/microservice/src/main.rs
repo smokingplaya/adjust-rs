@@ -1,15 +1,25 @@
+use controller::test::TestController;
+use dixxxie::{
+  database::{postgres::{Postgres, PostgresConnection}, Pool},
+  server::WebService
+};
+
+mod controller;
+mod service;
+mod models;
+
+#[allow(unused)]
+#[derive(Clone)]
+struct AppState {
+  postgres: Pool<Postgres>
+}
+
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() -> anyhow::Result<()> {
   let state = AppState {
-    postgres: establish_connection()?
+    postgres: PostgresConnection::try_connect()?
   };
 
-  let router = Router::new()
-    .apply_controller(BalanceController)
-    .with_state(state);
-
-  let listener = tokio::net::TcpListener::bind("0.0.0.0:80")
-    .await?;
-
-  Ok(axum::serve(listener, router).await?)
+  WebService::start(state, [TestController], Some(1337))
+    .await
 }

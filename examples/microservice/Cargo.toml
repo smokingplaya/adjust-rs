@@ -4,3 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+anyhow = "1.0.96"
+dixxxie = "0.1.18"
+serde = { version = "1.0.218", features = ["derive"] }
+tokio = { version = "1.43.0", features = ["full"] }
+
+[dependencies.axum]
+version = "0.8.1"
+features = ["multipart"]
