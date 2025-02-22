@@ -5,7 +5,7 @@ description = "Utility library for making serivces on axum easier"
 license = "	AGPL-3.0-or-later"
 keywords = ["axum", "diesel", "redis", "utils"]
 repository = "https://github.com/riverfallmc/dixxxie"
-version = "0.1.19"
+version = "0.1.20"
 edition = "2021"
 
 [dependencies]

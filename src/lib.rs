@@ -1,8 +1,11 @@
 #[allow(warnings)]
 
-pub mod controller;
 pub mod response;
-pub mod database;
-pub mod server;
 
+pub mod controller;
+
+pub mod server;
+pub mod service;
+
+pub mod database;
 pub use redis;

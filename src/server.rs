@@ -1,6 +1,9 @@
 use axum::Router;
 use crate::controller::{ApplyControllerOnRouter, Controller};
 
+/// A structure that raises the ``axum`` server with all the specified controllers.
+///
+/// This is done as a structure to improve code readability.
 pub struct WebService;
 
 impl WebService {

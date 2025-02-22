@@ -1,6 +1,9 @@
 use std::any::type_name;
 use axum::Router;
 
+/// ``Controller`` - trait required for the ``use_controller`` method on ``axum::Router``.
+///
+/// The ``register`` method is called at the moment of ``axum`` web service initialization, and is applied at the moment of ``axum::Router`` creation.
 pub trait Controller<S>
 where
   S: Clone + Send + Sync + 'static,
@@ -8,7 +11,10 @@ where
   fn register(self, router: Router<S>) -> Router<S>;
 }
 
-pub trait ApplyControllerOnRouter<S>
+/// ``ApplyControllerOnRouter`` is an internal trait for ``axum::Router``.
+///
+/// Adds two methods - ``use_controller`` and ``use_controllers``.
+pub(crate) trait ApplyControllerOnRouter<S>
 where
   S: Clone + Send + Sync + 'static,
 {

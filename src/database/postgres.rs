@@ -1,12 +1,10 @@
 use diesel::{r2d2::ConnectionManager, PgConnection};
-use super::Pool;
+use super::{Pool, PoolBuilder};
 
 pub type Postgres = ConnectionManager<PgConnection>;
 
-pub struct PostgresConnection;
-
-impl PostgresConnection {
-  pub fn try_connect() -> anyhow::Result<Pool<Postgres>> {
+impl PoolBuilder<Postgres> for Postgres {
+  fn create_pool() -> anyhow::Result<Pool<Postgres>> {
     let database_url = std::env::var("DATABASE_URL")?;
     let manager = ConnectionManager::<PgConnection>::new(database_url);
 

@@ -5,10 +5,11 @@ use serde::Serialize;
 #[derive(Debug)]
 pub struct HttpError(pub anyhow::Error, pub Option<StatusCode>);
 
-#[deprecated]
-pub type OldHttpResult<T> = Result<T, HttpError>;
-/// wrapping the result into json, 'cuz we are doing rest api
-pub type HttpResult<T> = Result<Json<T>, HttpError>;
+pub type NonJsonHttpResult<T> = Result<T, HttpError>;
+// wrapping the result into json, 'cuz we are doing rest api
+
+///
+pub type HttpResult<T> = NonJsonHttpResult<Json<T>>;
 
 impl HttpError {
   pub fn new(
