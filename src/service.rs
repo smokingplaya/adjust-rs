@@ -19,6 +19,7 @@ use crate::{controller::ControllerList, server::WebServer};
 ///     .await
 /// }
 /// ```
+#[derive(Default)]
 pub struct Service<'a, S>
 where
   S: Clone + Send + Sync + 'static,
@@ -34,7 +35,7 @@ where
   S: Clone + Send + Sync + 'static,
 {
   pub fn run(self) -> impl Future<Output = anyhow::Result<()>> {
-    log::info!("Starting service {}", self.name);
+    log::info!("Starting service {} (v{})", self.name, env!("CARGO_PKG_VERSION"));
 
     WebServer::start(self.state, self.controllers, self.port)
   }
