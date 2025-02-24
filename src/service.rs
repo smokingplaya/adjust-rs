@@ -35,7 +35,7 @@ where
   S: Clone + Send + Sync + 'static,
 {
   pub fn run(self) -> impl Future<Output = anyhow::Result<()>> {
-    log::info!("Starting service {}", self.name);
+    log::info!("starting service {}", self.name);
 
     WebServer::start(self.state, self.controllers, self.port)
   }

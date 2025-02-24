@@ -1,5 +1,10 @@
 [package]
 name = "adjust_macro"
+authors = ["smokingplaya"]
+description = "adjust-rs macros"
+license = "	AGPL-3.0-or-later"
+keywords = ["axum", "diesel", "redis", "utils"]
+repository = "https://github.com/riverfallmc/adjust-rs"
 version = "0.1.0"
 edition = "2021"
 
