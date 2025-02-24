@@ -12,6 +12,30 @@ dependencies = [
 ]
 
 [[package]]
+name = "adjust"
+version = "0.1.23"
+dependencies = [
+ "adjust_macro",
+ "anyhow",
+ "axum",
+ "diesel",
+ "dotenv",
+ "env_logger",
+ "log",
+ "redis",
+ "serde",
+ "tokio",
+]
+
+[[package]]
+name = "adjust_macro"
+version = "0.1.0"
+dependencies = [
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "adler2"
 version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -296,22 +320,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
-]
-
-[[package]]
-name = "dixxxie"
-version = "0.1.17"
-dependencies = [
- "anyhow",
- "axum",
- "diesel",
- "dotenv",
- "env_logger",
- "log",
- "r2d2",
- "redis",
- "serde",
- "tokio",
 ]
 
 [[package]]
@@ -720,9 +728,10 @@ checksum = "78ca9ab1a0babb1e7d5695e3530886289c18cf2f87ec19a575a0abdce112e3a3"
 name = "microservice"
 version = "0.1.0"
 dependencies = [
+ "adjust",
  "anyhow",
  "axum",
- "dixxxie",
+ "log",
  "serde",
  "tokio",
 ]

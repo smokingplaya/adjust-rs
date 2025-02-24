@@ -12,7 +12,6 @@ where
   S: Clone + Send + Sync + 'static,
 {
   fn new() -> Result<Box<Self>> where Self: Sized;
-
   fn register(&self, router: Router<S>) -> Router<S>;
 }
 
@@ -47,13 +46,28 @@ where
 
 // soooo here we wrapping controller into box,
 // it means library eats more resources
+/// Creates a vector of controllers allocated to Heap (via Box)
+///
+/// # Example
+/// ```rs
+/// pub struct AppState {
+///   postgres: Pool<Postgres>
+/// };
+///
+/// Service {
+///   name: "Example",
+///   state: AppState::default(),
+///   controllers: controllers![ExampleController, YetAnotherControler],
+///   ..Default::default() // port: None
+/// }
+/// ```
 #[macro_export]
 macro_rules! controllers {
   ($($controller:ty),* $(,)?) => {{
-    let mut vec: Vec<Box<dyn Controller<AppState>>> = Vec::new();
+    let mut vec: Vec<Box<dyn adjust::controller::Controller<AppState>>> = Vec::new();
     $(
-      log::debug!("Using {}", stringify!($controller));
-      vec.push(<$controller>::new().unwrap());
+      log::debug!("{} connected", stringify!($controller));
+      vec.push(<$controller>::new().expect(&format!("{} constructor throws an error", stringify!($controller))));
     )*
 
     vec

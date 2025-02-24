@@ -8,9 +8,9 @@ use crate::{controller::ControllerList, server::WebServer};
 /// async fn main() -> anyhow::Result<()> {
 ///   let service = Service {
 ///     name: "Example",
-///     state: ApplicationState {
+///     state: AppState {
 ///       postgres: PostgresConnection::try_connect()?
-///     },
+///     }, // or AppState::default()
 ///     controllers: [TestController],
 ///     ..Default::default() // port: None
 ///   };
@@ -35,7 +35,7 @@ where
   S: Clone + Send + Sync + 'static,
 {
   pub fn run(self) -> impl Future<Output = anyhow::Result<()>> {
-    log::info!("Starting service {} (v{})", self.name, env!("CARGO_PKG_VERSION"));
+    log::info!("Starting service {}", self.name);
 
     WebServer::start(self.state, self.controllers, self.port)
   }

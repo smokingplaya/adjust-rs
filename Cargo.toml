@@ -1,19 +1,19 @@
 [package]
-name = "dixxxie"
+name = "adjust"
 authors = ["smokingplaya"]
 description = "Utility library for making serivces on axum easier"
 license = "	AGPL-3.0-or-later"
 keywords = ["axum", "diesel", "redis", "utils"]
-repository = "https://github.com/riverfallmc/dixxxie"
-version = "0.1.22"
+repository = "https://github.com/riverfallmc/adjust-rs"
+version = "0.1.23"
 edition = "2021"
 
 [dependencies]
 anyhow = "1.0.95"
 dotenv = "0.15.0"
+adjust_macro = { path = "./crates/adjust_macro" }
 env_logger = "0.11.6"
 log = "0.4.25"
-r2d2 = "0.8.10"
 tokio = { version = "1.43.0", features = ["full"] }
 
 [dependencies.serde]

@@ -1,25 +1,23 @@
+use std::sync::Arc;
 use controller::test::TestController;
-use dixxxie::{
-  database::{postgres::{Postgres, PostgresConnection}, Pool},
-  server::WebService
-};
+use adjust::{main, controllers, database::{postgres::Postgres, Pool}, controller::Controller, service::Service};
 
 mod controller;
 mod service;
 mod models;
 
 #[allow(unused)]
-#[derive(Clone)]
-struct AppState {
-  postgres: Pool<Postgres>
+#[derive(Default, Clone)]
+pub struct AppState {
+  postgres: Arc<Pool<Postgres>>
 }
 
-#[tokio::main]
-async fn main() -> anyhow::Result<()> {
-  let state = AppState {
-    postgres: PostgresConnection::try_connect()?
-  };
-
-  WebService::start(state, [TestController], Some(1337))
-    .await
+#[main]
+async fn main() -> Service<'static, AppState> {
+  Service {
+    name: "Example",
+    state: AppState::default(),
+    controllers: controllers![TestController],
+    ..Default::default() // port: None
+  }
 }

@@ -1,11 +1,13 @@
 [package]
 name = "microservice"
-version = "0.1.0"
+im-a-teapot = true
+version = "0.1.1"
 edition = "2021"
 
 [dependencies]
 anyhow = "1.0.96"
-dixxxie = "0.1.18"
+adjust = { path = "../../" }
+log = "0.4.26"
 serde = { version = "1.0.218", features = ["derive"] }
 tokio = { version = "1.43.0", features = ["full"] }
 
