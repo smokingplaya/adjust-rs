@@ -46,9 +46,9 @@ impl WebServer {
       dotenv::dotenv()
         .expect("Unable to find .env file");
 
-      env_logger::init();
-
-      log::debug!("debug assertions enabled (dotenv, env_logger)");
+      log::debug!("running in debug mode");
     }
+
+    env_logger::init();
   }
 }
