@@ -11,4 +11,6 @@ pub mod service;
 pub use redis;
 pub mod database;
 
+pub mod environment;
+
 pub use adjust_macro::*;
