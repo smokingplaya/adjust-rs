@@ -26,11 +26,18 @@ impl WebServer {
   ///       .await
   /// }
   /// ```
-  pub async fn start<S>(state: S, controllers: ControllerList<S>, port: Option<u32>) -> anyhow::Result<()>
+  pub async fn start<S>(state: S, controllers: ControllerList<S>, port: Option<u32>, dev_port: Option<u32>) -> anyhow::Result<()>
   where
     S: Clone + Send + Sync + 'static
   {
-    let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port.unwrap_or(80)))
+    // idk if it will work, like, it's macro, not a runtime check
+    let port = if cfg!(debug_assertions) {
+      dev_port.unwrap_or(8080)
+    } else {
+      port.unwrap_or(80)
+    };
+
+    let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port))
       .await?;
 
     let router = Router::new()

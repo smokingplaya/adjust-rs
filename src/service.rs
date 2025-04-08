@@ -1,4 +1,3 @@
-use std::future::Future;
 use crate::{controller::ControllerList, server::WebServer};
 
 /// A ``declarative`` structure for fast web service creation
@@ -20,23 +19,28 @@ use crate::{controller::ControllerList, server::WebServer};
 /// }
 /// ```
 #[derive(Default)]
-pub struct Service<'a, S>
+pub struct Service<S>
 where
   S: Clone + Send + Sync + 'static,
 {
-  pub name: &'a str,
+  pub name: &'static str,
   pub state: S,
   pub controllers: ControllerList<S>,
-  pub port: Option<u32>
+  pub port: Option<u32>,
+  pub dev_port: Option<u32>,
+  pub migrations: bool
 }
 
-impl<S> Service<'_, S>
+impl<S> Service<S>
 where
   S: Clone + Send + Sync + 'static,
 {
-  pub fn run(self) -> impl Future<Output = anyhow::Result<()>> {
+  pub async fn run(self) -> anyhow::Result<()> {
     log::info!("starting service {}", self.name);
 
-    WebServer::start(self.state, self.controllers, self.port)
+    WebServer::enviroment();
+
+    WebServer::start(self.state, self.controllers, self.port, self.dev_port)
+      .await
   }
 }

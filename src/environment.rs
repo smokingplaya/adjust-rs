@@ -5,11 +5,13 @@ macro_rules! load_env {
     $vis static $var: std::sync::LazyLock<String> = std::sync::LazyLock::new(|| {
       let var = std::env::var(stringify!($var));
 
-      if var.is_err() {
-        log::error!("Environment variable ${} not found!", stringify!($var));
+      if let Ok(var) = var {
+        return var
       }
 
-      var.unwrap()
+      log::error!("Environment variable ${} not found!", stringify!($var));
+
+      panic!()
     });
   };
 }
