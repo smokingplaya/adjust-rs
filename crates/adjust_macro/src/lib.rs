@@ -16,6 +16,8 @@ pub fn main(_attr: TokenStream, item: TokenStream) -> TokenStream {
   let expanded = quote! {
     #[tokio::main]
     async fn #name() -> anyhow::Result<()> {
+      adjust::server::WebServer::enviroment();
+
       let service: #ret_type = #block;
       service.run().await
     }

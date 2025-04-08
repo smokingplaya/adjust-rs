@@ -38,8 +38,6 @@ where
   pub async fn run(self) -> anyhow::Result<()> {
     log::info!("starting service {}", self.name);
 
-    WebServer::enviroment();
-
     WebServer::start(self.state, self.controllers, self.port, self.dev_port)
       .await
   }

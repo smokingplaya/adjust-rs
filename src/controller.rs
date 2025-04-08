@@ -64,6 +64,7 @@ where
 #[macro_export]
 macro_rules! controllers {
   ($($controller:ty),* $(,)?) => {{
+    use adjust::controller::Controller;
     let mut vec: Vec<Box<dyn adjust::controller::Controller<AppState>>> = Vec::new();
     $(
       log::debug!("{} connected", stringify!($controller));

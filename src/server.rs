@@ -52,8 +52,6 @@ impl WebServer {
     if cfg!(debug_assertions) {
       dotenv::dotenv()
         .expect("Unable to find .env file");
-
-      log::debug!("running in debug mode");
     }
 
     env_logger::init();
