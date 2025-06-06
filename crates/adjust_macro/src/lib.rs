@@ -10,7 +10,7 @@ pub fn main(_attr: TokenStream, item: TokenStream) -> TokenStream {
 
   let ret_type = match &input.sig.output {
     ReturnType::Type(_, ty) => ty,
-    _ => panic!("main function should return Service<'static, AppState>"),
+    _ => panic!("main function should return Service<AppState>"),
   };
 
   let expanded = quote! {
@@ -20,6 +20,22 @@ pub fn main(_attr: TokenStream, item: TokenStream) -> TokenStream {
 
       let service: #ret_type = #block;
       service.run().await
+    }
+  };
+
+  TokenStream::from(expanded)
+}
+
+#[proc_macro_derive(DefaultControllerInit)]
+pub fn derive_auto_new(input: TokenStream) -> TokenStream {
+  let input = parse_macro_input!(input as syn::DeriveInput);
+  let name = input.ident;
+
+  let expanded = quote! {
+    impl adjust::controller::ControllerInitialization<AppState> for #name {
+      async fn new() -> anyhow::Result<Box<Self>> {
+        Ok(Box::new(Self))
+      }
     }
   };
 

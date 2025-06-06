@@ -1,17 +1,27 @@
+use std::future::Future;
 use anyhow::Result;
 use axum::Router;
 
 pub(crate) type HeapedController<S> = Box<dyn Controller<S>>;
 pub(crate) type ControllerList<S> = Vec<HeapedController<S>>;
 
-/// ``Controller`` - trait required for the ``use_controller`` method on ``axum::Router``.
+/// ``ControllerInitialization`` - an optional trait that allows the developer to do something he needs to do before creating the controller.
 ///
-/// The ``register`` method is called at the moment of ``axum`` web service initialization, and is applied at the moment of ``axum::Router`` creation.
-pub trait Controller<S>
+/// If the developer does not need to implement this trait, he can use ``#derive(DefaultControllerInit)``.
+pub trait ControllerInitialization<S>
 where
   S: Clone + Send + Sync + 'static,
 {
-  fn new() -> Result<Box<Self>> where Self: Sized;
+  fn new() -> impl Future<Output = Result<Box<Self>>> where Self: Sized;
+}
+
+/// ``Controller`` - trait required for the ``use_controller`` method on ``axum::Router``.
+///
+/// The ``register`` method is called at the moment of ``axum`` web service initialization, and is applied at the moment of ``axum::Router`` creation.
+pub trait Controller<S>: ControllerInitialization<S>
+where
+  S: Clone + Send + Sync + 'static,
+{
   fn register(&self, router: Router<S>) -> Router<S>;
 }
 
@@ -50,6 +60,7 @@ where
 ///
 /// # Example
 /// ```rs
+/// #[derive(Default)]
 /// pub struct AppState {
 ///   postgres: Pool<Postgres>
 /// };

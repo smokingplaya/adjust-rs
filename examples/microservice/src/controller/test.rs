@@ -1,8 +1,8 @@
 use axum::{extract::{State, Path}, Router, routing::get};
-use adjust::{controller::Controller, response::HttpResult};
+use adjust::{DefaultControllerInit, controller::Controller, response::HttpResult};
 use crate::{models::hi::MessageDto, service::test::TestService, AppState};
 
-#[derive(Default)]
+#[derive(Default, DefaultControllerInit)]
 pub struct TestController;
 
 impl TestController {
@@ -17,15 +17,11 @@ impl TestController {
 }
 
 impl Controller<AppState> for TestController {
-  fn new() -> anyhow::Result<Box<Self>> {
-    Ok(Box::new(Self))
-  }
-
   fn register(&self, router: Router<AppState>) -> Router<AppState> {
     router
       .nest("/test",
-      Router::new()
-        .route("/sayHi/{name}", get(Self::say_hi))
+        Router::new()
+          .route("/sayHi/{name}", get(Self::say_hi))
     )
   }
 }
