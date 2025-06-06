@@ -79,7 +79,7 @@ macro_rules! controllers {
     let mut vec: Vec<Box<dyn adjust::controller::Controller<AppState>>> = Vec::new();
     $(
       log::debug!("{} connected", stringify!($controller));
-      vec.push(<$controller>::new().expect(&format!("{} constructor throws an error", stringify!($controller))));
+      vec.push(<$controller>::new().await.expect(&format!("{} constructor throws an error", stringify!($controller))));
     )*
 
     vec
