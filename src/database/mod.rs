@@ -1,10 +1,11 @@
 use std::ops::{Deref, DerefMut};
-
 use diesel::r2d2::{ManageConnection, PooledConnection};
 
 pub mod postgres;
-pub mod redis;
 pub mod util;
+
+#[cfg(feature = "redis")]
+pub mod redis;
 
 /// Database pool
 ///
