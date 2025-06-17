@@ -5,7 +5,7 @@ description = "Utility library for making serivces on axum easier"
 license = "AGPL-3.0-or-later"
 keywords = ["axum", "diesel", "redis", "utils"]
 repository = "https://github.com/smokingplaya/adjust-rs"
-version = "0.1.31"
+version = "0.1.32"
 edition = "2021"
 
 [dependencies]
