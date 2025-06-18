@@ -5,13 +5,14 @@ description = "Utility library for making serivces on axum easier"
 license = "AGPL-3.0-or-later"
 keywords = ["axum", "diesel", "redis", "utils"]
 repository = "https://github.com/smokingplaya/adjust-rs"
-version = "0.1.32"
+version = "0.1.33"
 edition = "2021"
 
 [dependencies]
 adjust_macro = "0.1.2"
 anyhow = "1.0.95"
 axum = { version = "0.8.1", features = ["macros"] }
+axum-cookie = { version = "0.2.3", optional = true }
 dotenv = "0.15.0"
 diesel = { version = "2.2.0", features = ["postgres", "r2d2"] }
 env_logger = "0.11.6"
@@ -25,3 +26,4 @@ redis = { version = "0.28.1", features = ["r2d2"], optional = true }
 default = []
 json = ["dep:serde_json"]
 redis = ["dep:redis"]
+cookie = ["dep:axum-cookie"]

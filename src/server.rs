@@ -44,6 +44,9 @@ impl WebServer {
       .use_controllers(controllers)
       .with_state(state);
 
+    #[cfg(feature = "cookie")]
+    let router = router.layer(axum_cookie::CookieLayer::default());
+
     Ok(axum::serve(listener, router)
       .await?)
   }

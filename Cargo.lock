@@ -13,11 +13,12 @@ dependencies = [
 
 [[package]]
 name = "adjust"
-version = "0.1.31"
+version = "0.1.33"
 dependencies = [
  "adjust_macro",
  "anyhow",
  "axum",
+ "axum-cookie",
  "diesel",
  "dotenv",
  "env_logger",
@@ -156,6 +157,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "axum-cookie"
+version = "0.2.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dd42d7564a7d36703869e6191aa2dc29d72c9158501035da83ad934eca2e7ca1"
+dependencies = [
+ "axum-core",
+ "cookie-rs",
+ "http",
+ "tower-layer",
+ "tower-service",
+]
+
+[[package]]
 name = "axum-core"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -240,6 +254,12 @@ dependencies = [
  "bytes",
  "memchr",
 ]
+
+[[package]]
+name = "cookie-rs"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "69deedbff42d34777a2c86794e57629898a686d84efcc28dfa8fbb515c8884ce"
 
 [[package]]
 name = "darling"
