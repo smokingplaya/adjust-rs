@@ -1,6 +1,8 @@
 use axum::Router;
 use crate::controller::{ApplyControllerOnRouter, ControllerList};
 
+const WILDCART: &str = "0.0.0.0";
+
 /// A structure that raises the ``axum`` server with all the specified controllers.
 ///
 /// This is done as a structure to improve code readability.
@@ -26,18 +28,22 @@ impl WebServer {
   ///       .await
   /// }
   /// ```
-  pub async fn start<S>(state: S, controllers: ControllerList<S>, port: Option<u32>, dev_port: Option<u32>) -> anyhow::Result<()>
+  pub async fn start<S>(name: &'static str, state: S, controllers: ControllerList<S>, port: Option<u32>, dev_port: Option<u32>, ip_override: Option<&str>, emoji: Option<char>) -> anyhow::Result<()>
   where
     S: Clone + Send + Sync + 'static
   {
-    // idk if it will work, like, it's macro, not a runtime check
+    let ip_address = ip_override.unwrap_or(WILDCART);
+    let host = if ip_address == WILDCART { "localhost" } else { ip_address };
+
     let port = if cfg!(debug_assertions) {
       dev_port.unwrap_or(8080)
     } else {
       port.unwrap_or(80)
     };
 
-    let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port))
+    let ip = format!("{ip_address}:{port}");
+
+    let listener = tokio::net::TcpListener::bind(ip.clone())
       .await?;
 
     let router = Router::new()
@@ -47,16 +53,11 @@ impl WebServer {
     #[cfg(feature = "cookie")]
     let router = router.layer(axum_cookie::CookieLayer::default());
 
+    let emoji = emoji.unwrap_or('📡');
+
+    log::info!("{emoji} {name} available at http://{host}:{port}");
+
     Ok(axum::serve(listener, router)
       .await?)
-  }
-
-  pub fn enviroment() {
-    if cfg!(debug_assertions) {
-      dotenv::dotenv()
-        .expect("Unable to find .env file");
-    }
-
-    env_logger::init();
   }
 }

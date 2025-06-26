@@ -13,7 +13,7 @@ dependencies = [
 
 [[package]]
 name = "adjust"
-version = "0.1.33"
+version = "0.1.34"
 dependencies = [
  "adjust_macro",
  "anyhow",
@@ -31,9 +31,9 @@ dependencies = [
 
 [[package]]
 name = "adjust_macro"
-version = "0.1.2"
+version = "0.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aa1b5e7a262a0aa1e3ac3918c75fde540d968aa649dc51b1b32ca70f592613b1"
+checksum = "2c124d66a1b04383c0d77c6975125f831c2f9db6cbe6735d7f11b51db9ead0ce"
 dependencies = [
  "quote",
  "syn",

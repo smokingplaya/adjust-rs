@@ -21,7 +21,7 @@ impl HttpError {
 impl fmt::Display for HttpError {
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     match &self.1 {
-      Some(status) => write!(f, "{} (Status: {})", self.0, status),
+      Some(status) => write!(f, "{} (status: {})", self.0, status),
       None => write!(f, "{}", self.0),
     }
   }

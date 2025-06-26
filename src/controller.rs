@@ -78,8 +78,13 @@ macro_rules! controllers {
     use adjust::controller::Controller;
     let mut vec: Vec<Box<dyn adjust::controller::Controller<AppState>>> = Vec::new();
     $(
-      log::debug!("{} connected", stringify!($controller));
-      vec.push(<$controller>::new().await.expect(&format!("{} constructor throws an error", stringify!($controller))));
+      match <$controller>::new().await {
+        Ok(controller) => {
+          log::debug!("{} successfully attached to Service", stringify!($controller));
+          vec.push(controller);
+        },
+        Err(e) => log::error!("{} threw an error and will not be attached to Service: {e}", stringify!($controller))
+      }
     )*
 
     vec
