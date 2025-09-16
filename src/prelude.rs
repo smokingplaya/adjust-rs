@@ -11,3 +11,6 @@ pub use serde_json;
 
 #[cfg(feature = "redis")]
 pub use redis;
+
+#[cfg(feature = "openapi")]
+pub use utoipa;
