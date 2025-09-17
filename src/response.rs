@@ -23,10 +23,9 @@ impl<T: Serialize, E: Serialize + IntoResponse> HttpResponse<T, E> {
   }
 
   pub fn error(
-    successful: bool,
-    error: Option<E>
+    error: E
   ) -> Json<Self> {
-    Json(HttpResponse { successful, response: None, error })
+    Json(HttpResponse { successful: false, response: None, error: Some(error) })
   }
 
   pub fn raw(
@@ -132,5 +131,22 @@ impl IntoResponse for HttpError {
         error: Some(self)
       })
     ).into_response()
+  }
+}
+
+// pub trait IntoHttpError {
+//   fn into_internal<'a, T: Deserialize<'a> + Serialize>() -> Result<T, HttpError>;
+// }
+
+pub trait CastErrorIntoResponse<T> {
+  fn err_into_response(self) -> Result<T, Json<HttpResponse>>;
+}
+
+impl<T, E: Into<String>> CastErrorIntoResponse<T> for Result<T, E> {
+  fn err_into_response(self) -> Result<T, Json<HttpResponse>> {
+    match self {
+      Ok(c) => Ok(c),
+      Err(err) => Err(HttpResponse::error(HttpError::internal(Some(err.into()))))
+    }
   }
 }
