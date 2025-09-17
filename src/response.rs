@@ -141,14 +141,14 @@ impl IntoResponse for HttpError {
 // }
 
 pub trait CastErrorIntoResponse<T> {
-  fn err_into_response(self) -> Result<T, Json<HttpResponse>>;
+  fn err_into_response(self) -> Result<T, HttpError>;
 }
 
 impl<T, E: Display> CastErrorIntoResponse<T> for Result<T, E> {
-  fn err_into_response(self) -> Result<T, Json<HttpResponse>> {
+  fn err_into_response(self) -> Result<T, HttpError> {
     match self {
       Ok(c) => Ok(c),
-      Err(err) => Err(HttpResponse::error(HttpError::internal(Some(err.to_string()))))
+      Err(err) => Err(HttpError::internal(Some(err.to_string())))
     }
   }
 }
