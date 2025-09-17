@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use axum::{http::StatusCode, response::IntoResponse, Json};
 use serde::{Deserialize, Serialize};
 
@@ -142,11 +144,11 @@ pub trait CastErrorIntoResponse<T> {
   fn err_into_response(self) -> Result<T, Json<HttpResponse>>;
 }
 
-impl<T, E: Into<String>> CastErrorIntoResponse<T> for Result<T, E> {
+impl<T, E: Display> CastErrorIntoResponse<T> for Result<T, E> {
   fn err_into_response(self) -> Result<T, Json<HttpResponse>> {
     match self {
       Ok(c) => Ok(c),
-      Err(err) => Err(HttpResponse::error(HttpError::internal(Some(err.into()))))
+      Err(err) => Err(HttpResponse::error(HttpError::internal(Some(err.to_string()))))
     }
   }
 }
