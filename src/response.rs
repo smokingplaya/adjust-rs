@@ -119,7 +119,7 @@ where
   E: Into<anyhow::Error> + 'static
 {
   fn from(err: E) -> Self {
-    HttpError::new(err.into().to_string(), "Internal error", None)
+    HttpError::internal(Some(err.into().to_string()))
   }
 }
 
