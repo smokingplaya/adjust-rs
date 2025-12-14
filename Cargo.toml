@@ -5,7 +5,7 @@ description = "Utility library for making serivces on axum easier"
 license = "AGPL-3.0-or-later"
 keywords = ["axum", "diesel", "redis", "utils"]
 repository = "https://github.com/smokingplaya/adjust-rs"
-version = "0.2.4"
+version = "0.2.6"
 edition = "2021"
 
 [dependencies]
@@ -20,11 +20,11 @@ log = "0.4.25"
 tokio = { version = "1.43.0", features = ["full"] }
 serde = { version = "1.0.217", features = ["derive"] }
 serde_json = { version = "1.0.140", optional = true }
-redis = { version = "0.28.1", features = ["r2d2"], optional = true }
+redis = { version = "0.32.5", features = ["r2d2"], optional = true }
 utoipa = { version = "5.3.1", features = ["axum_extras"], optional = true }
 
 [features]
-default = ["openapi"] # todo remove
+default = []
 json = ["dep:serde_json"]
 redis = ["dep:redis"]
 cookie = ["dep:axum-cookie"]

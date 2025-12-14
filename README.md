@@ -1,15 +1,4 @@
 # adjust
-``adjust`` - это библиотека/набор утилит для\
-написания более чётко структурированного кода,\
-которую мы используем для написания своих
-сервисов на языке [Rust](https://rust-lang.org)
+It's just a big mess.
 
-# Установка
-```toml
-[dependencies]
-adjust= "*"
-```
-
-# Использование
-* [Примеры](./examples/microservice)
-* [docs.rs](https://docs.rs/adjust)
+See [docs.rs/adjust](https://docs.rs/adjust) for some sort of documentation.

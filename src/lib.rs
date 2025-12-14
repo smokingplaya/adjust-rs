@@ -5,6 +5,7 @@ pub mod controller;
 pub mod server;
 pub mod service;
 
+mod environment;
+
 pub mod database;
-pub mod environment;
 pub use adjust_macro::*;
